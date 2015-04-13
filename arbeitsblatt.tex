@@ -1,0 +1,151 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% xenia.tex, in der definiere ich mir alles nötige
+% von Xenia Rendtel, 06.02.2006
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Was man so zum texen braucht
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt, a4paper,twoside]{article}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Wer hat es verzapft und wie heißt die Arbeit
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\author{Tobias Frischholz}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% alle benötigten Pakete werden hier eingebunden
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{lscape}
+\usepackage{picinpar}
+\usepackage{ulem}
+\usepackage{euler}
+\usepackage{multirow}
+\usepackage{pifont}
+\usepackage{comment}
+\usepackage{a4wide}
+\usepackage{german}
+\usepackage[latin1]{inputenc} %Damit man ohne Probleme äöü eingeben kann
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{rotating}
+\usepackage{fancyhdr}
+\usepackage{fancybox}
+\usepackage{amsmath}
+\usepackage{eso-pic} %% AddtoShipPicture nutzen
+\usepackage{amssymb}
+\usepackage{array}
+%\usepackage[nolineno,norules]{lgrind} % Programmcode feingemacht
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amscd}
+\usepackage{latexsym}
+\usepackage{tabularx}
+\usepackage{makeidx}
+\usepackage{marvosym} % Euro-Symbol einfügen
+\usepackage{enumerate}
+\usepackage{hhline} %% Tabellen schoen machen
+\usepackage{moreverb} %% verbatim Umgebung nutzen koennen
+\usepackage[all]{xy} %% xy-pic Umgebung fuer einfache Bilder
+\usepackage[pdftex]{thumbpdf}
+\usepackage{color}
+\usepackage{colortbl}
+\usepackage{wrapfig}  % ähnlich wie floatfig
+\usepackage{longtable} %lange Tabellen über mehrere Seiten erstellen
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Selbst definierte Style-Dateien
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[bilder,loesungen]{schule}  % Das Paket Schule wird eingefügt mit kleine Bilder Bilder einzufügen
+\usepackage{kasten} % In diesem Paket habe ich mir schattierte Kästen
+                    % definiert und ein paar Array-Umgebungen
+\usepackage{physik} % Physikalische Grundeinheiten sind hier enthalten
+\usepackage{mathe} % Mathematische Mengen und Symbole werden definiert
+\usepackage{schrift} % Schriften
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Einzug verändert und größerer Zeilenabstand
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\parindent0.0em                        % 1. Zeile nicht einrücken
+%\renewcommand{\baselinestretch}{1.1}  % neu- mehr Zeilenabstand
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Layout: Kapitel und Seitenzahl mit Linie in die Kopfzeile
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% für einen Artikel
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\pagestyle{fancyplain}
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}}
+\renewcommand{\subsectionmark}[1]{\markright{#1}}
+
+\lhead[]{}
+\chead{}
+\rhead[]{}
+\lfoot[]{}
+\cfoot[\textbf{\thepage}]{\textbf{\thepage}}
+\rfoot[]{}
+\renewcommand{\headrulewidth}{0.2pt}
+\renewcommand{\footrulewidth}{0.2pt}
+
+
+% Größe des Textbereiches in der Seite
+\setlength{\textwidth}{15.5cm}
+\setlength{\textheight}{23.5cm}
+% Kopf- und Fußzeile, Höhe und Abstand vom Text
+\setlength{\headheight}{1.7cm}
+\setlength{\headsep}{0.8cm}
+% Linker Seiteneinzug
+\setlength{\oddsidemargin}{2.75cm} \addtolength{\oddsidemargin}{-1in}
+\setlength{\evensidemargin}{2.75cm} \addtolength{\evensidemargin}{-1in}
+% Andere Größen ausrechnen (vertikal zentrieren)
+\setlength{\footskip}{\headsep}
+\addtolength{\footskip}{\headheight}
+\setlength{\topmargin}{\paperheight}
+\addtolength{\topmargin}{-\textheight}
+\addtolength{\topmargin}{-\headheight}
+\addtolength{\topmargin}{-\headsep}
+\addtolength{\topmargin}{-\footskip}
+\addtolength{\topmargin}{-2in}
+\addtolength{\topmargin}{-0.5\topmargin}
+
+
+\addtolength{\topmargin}{1.1cm}
+
+
+
+\begin{document}
+
+\sffamily
+%\fontfamily{ppl} \selectfont
+\begin{arbeitsblatt}[06.04.2015]{Kurzthema}{Langthema}
+{Nummer}
+
+\begin{enumerate}
+	\item{Test 1}
+	\item{Test 2}
+\end{enumerate}
+
+\end{arbeitsblatt}
+
+\begin{arbeitsblattloesung}[06.04.2015]{Kurzthema}{Langthema}{Nummer}
+
+\end{arbeitsblattloesung}
+
+\end{document}

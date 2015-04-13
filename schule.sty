@@ -1,0 +1,2153 @@
+\NeedsTeXFormat{LaTeX2e}[1996/06/01]
+\ProvidesPackage{schule}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Xenia Rendtel
+% 14.07.2006
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newcommand{\schuleloesungbegin}{\comment}
+\newcommand{\schuleloesungend}{\endcomment}
+\newcommand{\bilderbegin}{\comment}
+\newcommand{\bilderend}{\endcomment}
+\newcommand{\schuleveroffenbegin}{\comment}
+\newcommand{\schuleveroffenend}{\endcomment}
+
+
+\newcounter{klausur}
+\newcounter{blatt}
+\newcounter{notiz}
+\newcounter{merkblatt}
+\newcounter{arbeit}
+\newcounter{test}
+\newcounter{asa}
+\newcounter{folien}
+\newcounter{savepagenum}
+\newcounter{planung}
+\newif\ifnetzv
+\netzvfalse
+
+\DeclareOption{loesungen}{
+  \renewcommand{\schuleloesungbegin}{}
+  \renewcommand{\schuleloesungend}{}
+}
+
+\DeclareOption{bilder}{
+  \renewcommand{\bilderbegin}{}
+  \renewcommand{\bilderend}{}
+}
+
+
+\DeclareOption{nichtoffen}
+{
+  \netzvtrue
+  \renewcommand{\schuleveroffenbegin}{}
+  \renewcommand{\schuleveroffenend}{}
+}
+\ProcessOptions
+
+
+\ifnetzv\newcommand{\offen}[1]{#1}
+\else\newcommand{\offen}[1]{}
+\fi
+
+
+\newcommand{\bild}[2][]{
+\offen{
+    \includegraphics[#1]{#2}
+}
+}
+
+
+\newenvironment{nichtoffen}[1]{
+  \schuleveroffenbegin}{
+  \schuleveroffenend
+}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Neue Umgebungen für die Schule
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Arbeitsblätter, Merkblätter, Folien
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Arbeitsblätter
+
+\newenvironment{arbeitsblatt}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \hspace{0.3cm} #3  }}}
+    \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          \Large #4 A }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+    \put(545,540){\rotatebox{90}{\makebox(184,22)[r]{\sffamily\bfseries #2}}}
+    \put(545,104){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries
+          Arbeitsblatt}}}
+    \put(545,76){\includegraphics[height=20pt]{edit.png}} }
+  {
+    \thicklines \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \hspace{0.3cm} #3
+        }}} 
+    \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm}
+          \sffamily\bfseries \Large #4 A }}}
+    \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny 
+          Frischholz, #1}}}
+    
+    \put(40,729){\rotatebox{270}{\makebox(184,22)[l]{\sffamily\bfseries #2}}}
+    \put(40,204){\rotatebox{270}{\makebox(100,22)[r]{\sffamily\bfseries
+          Arbeitsblatt}}}
+    \put(40,76){\includegraphics[height=20pt]{edit.png}} } }
+
+}
+{
+\thispagestyle{empty}
+\clearpage
+\ClearShipoutPicture
+
+}
+
+\newenvironment{arbeitsblattloesung}[4][\today]
+{   \newpage
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+  \pagestyle{plain}
+  \ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \hspace{0.3cm} #3  }}}
+    \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries \Large #4
+          AL }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(545,540){\rotatebox{90}{\makebox(184,22)[r]{\sffamily\bfseries #2}}}
+    \put(545,104){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries
+          Arbeitsblattlösung}}}
+    \put(545,76){\includegraphics[height=20pt]{edit.png}} } {
+    \thicklines \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \hspace{0.3cm} #3
+        }}} \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm}
+          \sffamily\bfseries \Large #4 AL }}}
+    \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny 
+          Frischholz, #1}}}
+    \put(40,729){\rotatebox{270}{\makebox(184,22)[l]{\sffamily\bfseries #2}}}
+    \put(40,204){\rotatebox{270}{\makebox(100,22)[r]{\sffamily\bfseries
+          Arbeitsblattlösung}}}
+    \put(40,76){\includegraphics[height=20pt]{edit.png}} } }
+  \schuleloesungbegin
+}{  
+  \newpage
+  \schuleloesungend
+    \setcounter{page}{\thesavepagenum}
+    \ClearShipoutPicture
+    \thispagestyle{empty}
+}
+
+
+
+\newenvironment{arbeitsblattklein}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+
+
+    \put(56,57){\framebox(470,330){}} 
+    \put(56,365){{\framebox(470,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #3  }}}
+     \put(386,365){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+           \Large #4 A
+            }}}
+    \put(47,62){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(531,94){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries
+          \normalsize
+          Arbeitsblatt}}}
+    \put(531,162){\rotatebox{90}{\makebox(184,22)[r]{\sffamily\bfseries \normalsize
+          #2}}}
+
+    \put(531,72){\includegraphics[height=20pt]{edit.png}}
+
+    
+
+  }
+  {
+
+
+    \put(56,57){\framebox(470,330){}} 
+    \put(56,365){{\framebox(470,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #3  }}}
+     \put(386,365){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries 
+           \Large  #4 A
+            }}}
+    \put(47,62){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(531,94){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries
+          \normalsize
+          Arbeitsblatt}}}
+    \put(531,162){\rotatebox{90}{\makebox(184,22)[r]{\sffamily\bfseries \normalsize
+          #2}}}
+
+    \put(531,72){\includegraphics[height=20pt]{edit.png}}
+
+    
+  }
+}
+
+}
+{
+\thispagestyle{empty}
+\clearpage
+
+\ClearShipoutPicture
+
+}
+
+
+
+
+
+
+
+
+%% Merkblatt
+
+
+
+\newenvironment{merkblatt}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \hspace{0.3cm} #3  }}}
+    \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries \Large #4
+          M }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(545,540){\rotatebox{90}{\makebox(184,22)[r]{\sffamily\bfseries #2}}}
+    \put(545,104){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries
+          Merkblatt}}}
+    \put(545,76){\includegraphics[height=20pt]{merk.png}} } {
+    \thicklines \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \hspace{0.3cm} #3
+        }}} \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm}
+          \sffamily\bfseries \Large #4 M }}}
+    \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny 
+          Frischholz, #1}}}
+
+    \put(40,729){\rotatebox{270}{\makebox(184,22)[l]{\sffamily\bfseries
+          #2}}}
+    \put(40,204){\rotatebox{270}{\makebox(100,22)[r]{\sffamily\bfseries
+          Merkblatt}}}
+    \put(40,76){\includegraphics[height=20pt]{merk.png}}
+ 
+    
+  }
+}
+
+}{ \newpage \setcounter{page}{\thesavepagenum} \ClearShipoutPicture
+  \pagestyle{fancyplain} }
+
+
+%% Folien
+
+
+\newenvironment{folie}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+  \LARGE
+  
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(470,22)[l]{ \sffamily\bfseries \normalsize \hspace{0.3cm} #3  }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(545,540){\rotatebox{90}{\makebox(184,22)[r]{\sffamily\bfseries \normalsize
+          #2}}}
+    \put(545,104){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries \normalsize
+        Folie}}}
+    \put(545,76){\includegraphics[height=20pt]{folie.png}}
+    
+    
+
+  }
+  {
+\thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(470,22)[l]{ \sffamily\bfseries \normalsize \hspace{0.3cm} #3  }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(545,540){\rotatebox{90}{\makebox(184,22)[r]{\sffamily\bfseries \normalsize
+          #2}}}
+    \put(545,104){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries \normalsize
+        Folie}}}
+    \put(545,76){\includegraphics[height=20pt]{folie.png}}
+    
+    
+  }
+}
+
+}
+{
+\thispagestyle{empty}
+\clearpage
+\ClearShipoutPicture
+
+}
+
+
+
+\newenvironment{folieloesung}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+  
+  \LARGE
+  
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \normalsize \hspace{0.3cm} #3  }}}
+    \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries \Large #4
+          FL }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(545,540){\rotatebox{90}{\makebox(184,22)[r]{\sffamily\bfseries \normalsize
+          #2}}}
+    \put(545,104){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries \normalsize
+        Folienlösung}}}
+    \put(545,76){\includegraphics[height=20pt]{folie.png}}
+    
+    
+
+  }
+  {
+\thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \normalsize \hspace{0.3cm} #3  }}}
+    \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries \Large #4
+          FL }}}
+    \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(40,729){\rotatebox{270}{\makebox(184,22)[l]{\sffamily\bfseries \normalsize
+          #2}}}
+    \put(40,204){\rotatebox{270}{\makebox(100,22)[r]{\sffamily\bfseries
+          \normalsize
+          Folienlösung}}}
+    \put(40,76){\includegraphics[height=20pt]{folie.png}}
+    
+    
+  }
+}
+
+  \schuleloesungbegin
+}{  
+  \newpage
+  \schuleloesungend
+
+    \setcounter{page}{\thesavepagenum}
+    \ClearShipoutPicture
+    \thispagestyle{empty}
+}
+
+
+\newenvironment{folieklein}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+  \LARGE  
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+
+
+    \put(56,57){\framebox(470,330){}} 
+    \put(56,365){{\framebox(470,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #3  }}}
+    \put(47,62){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(531,94){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries \normalsize
+          Folie}}}
+    \put(531,162){\rotatebox{90}{\makebox(184,22)[r]{\sffamily\bfseries \normalsize
+          #2}}}
+
+    \put(531,72){\includegraphics[height=20pt]{folie.png}}
+
+    
+
+  }
+  {
+
+
+    \put(56,57){\framebox(470,330){}} 
+    \put(56,365){{\framebox(470,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #3  }}}
+    \put(47,62){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(531,94){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries \normalsize
+          Folie}}}
+    \put(531,162){\rotatebox{90}{\makebox(184,22)[r]{\sffamily\bfseries \normalsize
+          #2}}}
+
+    \put(531,72){\includegraphics[height=20pt]{folie.png}}
+
+    
+  }
+}
+
+}
+{
+\thispagestyle{empty}
+\clearpage
+
+\ClearShipoutPicture
+
+}
+
+
+
+\newcommand{\foliebildein}[2]{
+  \newpage
+  \thispagestyle{empty}
+  \mbox{}
+  \ClearShipoutPicture \AddToShipoutPicture{
+    \put(0,421){\includegraphics[page=#2,scale=1]{#1}}
+  }
+  \newpage
+  \ClearShipoutPicture
+}
+
+
+
+\newcommand{\foliebildzwei}[4]{
+  \newpage
+  \thispagestyle{empty}
+  \mbox{}
+  \ClearShipoutPicture \AddToShipoutPicture{
+    \put(0,421){\includegraphics[page=#2,scale=1]{#1}}
+    \put(0,0){\includegraphics[page=#4,scale=1]{#3}}
+  }
+  \newpage
+  \ClearShipoutPicture
+}
+
+
+
+
+
+%% Stationen für Wochenarbeit etc.
+
+
+
+
+\newenvironment{station}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+  
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #3  }}}
+    \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          \Large Station #4
+           }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(545,540){\rotatebox{90}{\makebox(184,22)[r]{\sffamily\bfseries \normalsize
+          #2}}}
+    \put(545,104){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries \normalsize
+        Stationenarbeit}}}
+    \put(545,76){\includegraphics[height=20pt]{station.png}}
+    
+    
+
+  }
+  {
+\thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #3  }}}
+    \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          \Large Station #4
+        }}}
+    \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(40,729){\rotatebox{270}{\makebox(184,22)[l]{\sffamily\bfseries \normalsize
+          #2}}}
+    \put(40,204){\rotatebox{270}{\makebox(100,22)[r]{\sffamily\bfseries
+          \normalsize
+          Stationenarbeit}}}
+    \put(40,76){\includegraphics[height=20pt]{station.png}}
+    
+    
+  }
+}
+
+}
+{
+\thispagestyle{empty}
+\clearpage
+
+\ClearShipoutPicture
+
+}
+
+
+
+
+
+
+\newenvironment{stationloesung}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+    
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #3  }}}
+    \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          \Large Station #4 L
+           }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(545,540){\rotatebox{90}{\makebox(184,22)[r]{\sffamily\bfseries
+          \normalsize #2}}}
+    \put(545,104){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries
+          \normalsize Lösung für die Stationenarbeit}}}
+    \put(545,76){\includegraphics[height=20pt]{station.png}} } {
+    \thicklines \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #3 }}} \put(401,743){{\framebox(139,22)[l]{
+          \hspace{0.3cm} \sffamily\bfseries \Large Station #4 L }}}
+    \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny 
+          Frischholz, #1}}}
+
+    \put(40,729){\rotatebox{270}{\makebox(184,22)[l]{\sffamily\bfseries
+          \normalsize #2}}}
+    \put(40,204){\rotatebox{270}{\makebox(100,22)[r]{\sffamily\bfseries
+          \normalsize Lösung für die Stationenarbeit}}}
+    \put(40,76){\includegraphics[height=20pt]{station.png}} } }
+
+  \schuleloesungbegin
+}{  
+  \newpage
+  \schuleloesungend
+    \setcounter{page}{\thesavepagenum}
+    \ClearShipoutPicture
+    \thispagestyle{empty}
+}
+
+
+%% Gruppenarbeit
+
+
+
+\newenvironment{gruppenarbeit}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+  
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #3  }}}
+    \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          \Large Gruppe #4 
+           }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(545,540){\rotatebox{90}{\makebox(184,22)[r]{\sffamily\bfseries \normalsize
+          #2}}}
+    \put(545,104){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries \normalsize
+        Gruppenarbeit}}}
+    \put(545,76){\includegraphics[height=20pt]{station.png}}
+    
+    
+
+  }
+  {
+\thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #3  }}}
+    \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          \Large Gruppe #4
+        }}}
+    \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(40,729){\rotatebox{270}{\makebox(184,22)[l]{\sffamily\bfseries \normalsize
+          #2}}}
+    \put(40,204){\rotatebox{270}{\makebox(100,22)[r]{\sffamily\bfseries
+          \normalsize
+          Gruppenarbeit}}}
+    \put(40,76){\includegraphics[height=20pt]{station.png}}
+    
+    
+  }
+}
+
+}{  
+  \newpage
+    \setcounter{page}{\thesavepagenum}
+    \ClearShipoutPicture
+  \pagestyle{fancyplain}
+}
+
+
+
+\newenvironment{gruppenarbeitloesung}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+    
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #3  }}}
+    \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          \Large Gruppe #4 L 
+           }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(545,540){\rotatebox{90}{\makebox(184,22)[r]{\sffamily\bfseries \normalsize
+          #2}}}
+    \put(545,104){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries \normalsize
+          Lösung zur Gruppenarbeit}}}
+    \put(545,76){\includegraphics[height=20pt]{station.png}}
+    
+    
+
+  }
+  {
+\thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #3  }}}
+    \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          \Large Gruppe #4 L
+        }}}
+    \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(40,729){\rotatebox{270}{\makebox(184,22)[l]{\sffamily\bfseries \normalsize
+          #2}}}
+    \put(40,204){\rotatebox{270}{\makebox(100,22)[r]{\sffamily\bfseries
+          \normalsize
+          Lösung zur Gruppenarbeit}}}
+    \put(40,76){\includegraphics[height=20pt]{station.png}}
+    
+    
+  }
+}
+
+  \schuleloesungbegin
+}{  
+  \newpage
+  \schuleloesungend
+    \setcounter{page}{\thesavepagenum}
+    \ClearShipoutPicture
+    \thispagestyle{empty}
+}
+
+
+
+
+
+\newenvironment{gruppenarbeitklein}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+
+
+    \put(56,57){\framebox(470,330){}} 
+    \put(56,365){{\framebox(470,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #3  }}}
+     \put(386,365){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+           \Large Gruppe #4
+            }}}
+    \put(47,62){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(531,94){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries \normalsize
+          Gruppenarbeit}}}
+    \put(531,162){\rotatebox{90}{\makebox(184,22)[r]{\sffamily\bfseries \normalsize
+          #2}}}
+
+    \put(531,72){\includegraphics[height=20pt]{station.png}}
+
+    
+
+  }
+  {
+
+
+    \put(56,57){\framebox(470,330){}} 
+    \put(56,365){{\framebox(470,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #3  }}}
+     \put(386,365){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries 
+           \Large Gruppe #4
+            }}}
+    \put(47,62){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(531,94){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries \normalsize
+          Gruppenarbeit}}}
+    \put(531,162){\rotatebox{90}{\makebox(184,22)[r]{\sffamily\bfseries \normalsize
+          #2}}}
+
+    \put(531,72){\includegraphics[height=20pt]{station.png}}
+
+    
+  }
+}
+
+}
+{
+\thispagestyle{empty}
+\clearpage
+
+\ClearShipoutPicture
+
+}
+
+
+
+
+
+
+
+
+%% Lehrerinfoblatt
+
+
+
+
+\newenvironment{info}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+  
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #3  }}}
+    \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          \Large  #4 I
+           }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(545,540){\rotatebox{90}{\makebox(184,22)[r]{\sffamily\bfseries \normalsize
+          #2}}}
+    \put(545,104){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries \normalsize
+        Information}}}
+    \put(545,76){\includegraphics[height=20pt]{info.png}}
+    
+    
+
+  }
+  {
+\thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #3  }}}
+    \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          \Large #4 I
+        }}}
+    \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(40,729){\rotatebox{270}{\makebox(184,22)[l]{\sffamily\bfseries \normalsize
+          #2}}}
+    \put(40,204){\rotatebox{270}{\makebox(100,22)[r]{\sffamily\bfseries
+          \normalsize
+          Information}}}
+    \put(40,76){\includegraphics[height=20pt]{info.png}}
+    
+    
+  }
+}
+
+  \schuleloesungbegin
+}{  
+  \newpage
+  \schuleloesungend
+    \setcounter{page}{\thesavepagenum}
+    \ClearShipoutPicture
+  \pagestyle{fancyplain}
+}
+%% Weitere Notizen
+
+
+
+\newenvironment{notiz}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+  
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #3  }}}
+    \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          \Large  #4 N
+           }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(545,540){\rotatebox{90}{\makebox(184,22)[r]{\sffamily\bfseries \normalsize
+          #2}}}
+    \put(545,104){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries \normalsize
+        Notiz}}}
+    \put(545,76){\includegraphics[height=20pt]{info.png}}
+    
+    
+
+  }
+  {
+\thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #3  }}}
+    \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          \Large #4 N
+        }}}
+    \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    \put(40,729){\rotatebox{270}{\makebox(184,22)[l]{\sffamily\bfseries \normalsize
+          #2}}}
+    \put(40,204){\rotatebox{270}{\makebox(100,22)[r]{\sffamily\bfseries
+          \normalsize
+          Notiz}}}
+    \put(40,76){\includegraphics[height=20pt]{info.png}}
+    
+    
+  }
+}
+
+  \schuleloesungbegin
+}{  
+  \newpage
+  \schuleloesungend
+    \setcounter{page}{\thesavepagenum}
+    \ClearShipoutPicture
+  \pagestyle{fancyplain}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Arbeiten, Klausuren, Asas,...
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%% Klausur
+
+
+\newenvironment{klausur}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+\ClearShipoutPicture  
+\AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(300,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #2   \hfill #3 \quad }}}
+    \put(371,743){{\framebox(169,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          Name: 
+           }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    
+    
+
+  }
+  {
+\thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(470,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #2   \hfill #3 \quad }}}
+    \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny
+          Frischholz, #1}}}
+    
+    
+  }
+}
+
+}{  
+  \newpage
+    \setcounter{page}{\thesavepagenum}
+    \ClearShipoutPicture
+  \pagestyle{fancyplain}
+}
+
+\newenvironment{klausurloesung}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+    
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(300,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #2   \hfill #3 \quad }}}
+    \put(371,743){{\framebox(169,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          Lösung 
+           }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    
+    
+
+  }
+  {
+\thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(300,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #2   \hfill #3 \quad }}}
+    \put(371,743){{\framebox(169,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          Lösung
+        }}}
+    \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny
+          Frischholz, #1}}}
+    
+    
+  }
+}
+  \schuleloesungbegin
+}{  
+  \newpage
+  \schuleloesungend
+    \setcounter{page}{\thesavepagenum}
+    \ClearShipoutPicture
+    \thispagestyle{empty}
+    
+}
+
+
+\newenvironment{klausura}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+\ClearShipoutPicture  
+\AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(300,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} A #2   \hfill #3 \quad }}}
+    \put(371,743){{\framebox(169,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          Name: 
+           }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    
+    
+
+  }
+  {
+\thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(470,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm}A #2   \hfill #3 \quad }}}
+    \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny
+          Frischholz, #1}}}
+    
+    
+  }
+}
+
+}{  
+  \newpage
+    \setcounter{page}{\thesavepagenum}
+    \ClearShipoutPicture
+  \pagestyle{fancyplain}
+}
+
+\newenvironment{klausuraloesung}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+    
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(300,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm}A  #2   \hfill #3 \quad }}}
+    \put(371,743){{\framebox(169,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          Lösung 
+           }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+  }
+  {
+\thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(300,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm}A #2   \hfill #3 \quad }}}
+    \put(371,743){{\framebox(169,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          Lösung
+        }}}
+    \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny
+          Frischholz, #1}}}
+    
+    
+  }
+}
+  \schuleloesungbegin
+}{  
+  \newpage
+  \schuleloesungend
+    \setcounter{page}{\thesavepagenum}
+    \ClearShipoutPicture
+    \thispagestyle{empty}
+}
+
+
+\newenvironment{klausurb}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+\ClearShipoutPicture  
+\AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(300,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm}B #2   \hfill #3 \quad }}}
+    \put(371,743){{\framebox(169,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          Name: 
+           }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}}
+  {
+\thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(470,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm}B #2   \hfill #3 \quad }}}
+    \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny
+          Frischholz, #1}}}
+    
+    
+  }
+}
+\schuleveroffenbegin
+}{  
+  \newpage
+  \schuleveroffenend
+    \setcounter{page}{\thesavepagenum}
+    \ClearShipoutPicture
+  \pagestyle{fancyplain}
+}
+
+\newenvironment{klausurbloesung}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+    
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(300,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm}B #2   \hfill #3 \quad }}}
+    \put(371,743){{\framebox(169,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          Lösung 
+           }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    
+    
+
+  }
+  {
+\thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(300,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm}B #2   \hfill #3 \quad }}}
+    \put(371,743){{\framebox(169,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          Lösung
+        }}}
+    \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny
+          Frischholz, #1}}}
+    
+    
+  }
+}
+  \schuleloesungbegin
+  \schuleveroffenbegin
+}{  
+  \newpage
+  \schuleloesungend
+  \schuleveroffenend
+    \setcounter{page}{\thesavepagenum}
+    \ClearShipoutPicture
+    \thispagestyle{empty}
+}
+%% Test
+
+
+\newenvironment{test}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+  
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(300,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #2   \hfill #3 \quad }}}
+    \put(371,743){{\framebox(169,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          Name: 
+           }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    
+    
+
+  }
+  {
+\thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(300,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #2   \hfill #3 \quad }}}
+    \put(371,743){{\framebox(169,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          Name:
+        }}}
+    \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny
+          Frischholz, #1}}}
+    
+    
+  }
+}
+
+
+}{  
+  \newpage
+    \setcounter{page}{\thesavepagenum}
+    \ClearShipoutPicture
+  \pagestyle{fancyplain}
+}
+
+\newenvironment{testloesung}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+    
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(300,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #2   \hfill #3 \quad }}}
+    \put(371,743){{\framebox(169,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          Lösung 
+           }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    
+    
+
+  }
+  {
+\thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(300,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #2   \hfill #3 \quad }}}
+    \put(371,743){{\framebox(169,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          Lösung
+        }}}
+    \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny
+          Frischholz, #1}}}
+    
+    
+  }
+}
+\schuleloesungbegin
+}
+{
+  \newpage
+  \schuleloesungend
+    \setcounter{page}{\thesavepagenum}
+    \ClearShipoutPicture
+  \pagestyle{fancyplain}
+}
+
+
+
+
+%% Asa
+
+
+\newenvironment{asa}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+  
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(300,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #2   \hfill #3 \quad }}}
+    \put(371,743){{\framebox(169,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          Name: 
+           }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    
+    
+
+  }
+  {
+\thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(300,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #2   \hfill #3 \quad }}}
+    \put(371,743){{\framebox(169,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          Name:
+        }}}
+    \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny
+          Frischholz, #1}}}
+    
+    
+  }
+}
+
+}
+{
+\thispagestyle{empty}
+
+\clearpage
+\ClearShipoutPicture
+
+}
+
+
+\newenvironment{asaloesung}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+    
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(300,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #2   \hfill #3 \quad }}}
+    \put(371,743){{\framebox(169,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          Lösung 
+           }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Frischholz, #1}}}
+
+    
+    
+
+  }
+  {
+\thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(300,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #2   \hfill #3 \quad }}}
+    \put(371,743){{\framebox(169,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          Lösung
+        }}}
+    \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny
+          Frischholz, #1}}}
+    
+    
+  }
+}
+  \schuleloesungbegin
+}{  
+  \newpage
+  \schuleloesungend
+    \setcounter{page}{\thesavepagenum}
+    \ClearShipoutPicture
+    \thispagestyle{empty}
+}
+
+
+
+\newenvironment{arbeiterg}[2][Rendtel]
+{\newpage %% 1 = Rendtel
+  %% 2 = Klasse
+  %% 3 = DAtum
+  %% 4 = Gruppe
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+  \pagestyle{plain}
+  \textbf{#2} \hspace{5cm} \textbf{Name:}
+  \\
+  $\overline{\hspace{\linewidth}}$
+  \normalsize 
+}{\newpage
+  \setcounter{page}{\thesavepagenum}
+  \pagestyle{fancyplain}
+}
+
+\newenvironment{arbeitergloesung}[3][Rendtel]
+{\newpage
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+  \pagestyle{plain}
+  \textbf{Lösung} \hspace{1cm}{#2}
+  \\
+  $\overline{\hspace{\linewidth}}$
+  \normalsize 
+  \vspace{0.1cm}
+}{\newpage
+  \schuleloesungend
+  \setcounter{page}{\thesavepagenum}
+  \pagestyle{fancyplain}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Verschiedenes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newenvironment{fragebogen}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \hspace{0.3cm} #3  }}}
+    \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries \Large #4
+        }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Rendtel, #1}}}
+
+    \put(545,540){\rotatebox{90}{\makebox(184,22)[r]{\sffamily\bfseries
+          #2}}}
+    \put(545,104){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries
+          Fragebogen}}}
+    \put(545,76){\includegraphics[height=20pt]{info.png}}
+    
+    
+
+  }
+  {
+\thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \hspace{0.3cm} #3  }}}
+    \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries \Large #4
+        }}}
+    \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny
+          Rendtel, #1}}}
+
+    \put(40,729){\rotatebox{270}{\makebox(184,22)[l]{\sffamily\bfseries
+          #2}}}
+    \put(40,204){\rotatebox{270}{\makebox(100,22)[r]{\sffamily\bfseries
+          Fragebogen}}}
+    \put(40,76){\includegraphics[height=20pt]{info.png}}
+    
+    
+  }
+}
+
+}
+{
+\thispagestyle{empty}
+\clearpage
+\ClearShipoutPicture
+
+}
+
+
+
+
+
+
+\newenvironment{fragen}[3][Rendtel]
+{\newpage
+  \setcounter{figure}{0}
+  \setcounter{savepagenum}{\thepage}
+  \pagestyle{plain}
+  \small{Stunde {#2} 
+    \hspace{1cm} {#1} \hspace{1cm} Datum: {#3}}
+  \LARGE
+  \vspace{0.1cm}
+}{\newpage
+  \normalsize
+  \setcounter{page}{\thesavepagenum}
+}
+
+
+
+\newcommand{\bildchen}[2][]{
+  \bilderbegin 
+  \begin{center}
+    \includegraphics[#1]{#2}
+  \end{center}
+  \bilderend
+}
+
+
+
+
+
+\newcommand{\bildchenarbeit}[2][]{
+  \bilderbegin
+  \vfill
+
+  \begin{center}
+    \offen{\includegraphics[#1]{#2}}  \hspace{0.3cm} \textbf{Viel Erfolg!}
+  \end{center} 
+  \bilderend
+}
+
+
+
+\newcommand{\bw}[1][]{
+  \vfill
+  \hfill {\footnotesize  Bitte wenden... }
+  \newpage
+}
+
+
+
+\newcommand{\aus}[1][]{
+  \vfill
+  { \tiny  \hfill  Aus: \tiny{#1}}
+  
+}
+
+
+
+
+\newcommand{\bildchenarbeitnote}[2][]{
+  \bilderbegin
+  \vfill
+  \begin{figure}[H]
+    \centering
+    \includegraphics[#1]{#2}  \hspace{0.3cm} \textbf{Viel Erfolg!} 
+  \end{figure}\hfill  \begin{tabular}{l|p{1.5cm}|}
+      \cline{2-2}
+      \textbf{Note:} & \\ 
+      & \\ \cline{2-2}
+    \end{tabular}
+  \bilderend
+}
+
+
+
+\newcommand{\bildchenarbeitnoter}[2][]{
+  \bilderbegin
+  \vfill
+  \centering
+    \includegraphics[#1]{#2}  \hspace{0.3cm} \textbf{Viel Erfolg!} 
+    \hfill  \begin{tabular}{l|p{1.5cm}|}
+      \cline{2-2}
+      \textbf{Note:} & \\ 
+      & \\ \cline{2-2}
+    \end{tabular}
+  \bilderend
+}
+
+
+
+\newcommand{\notearbeit}[1][]{
+  \bilderbegin
+  \vfill
+
+  \begin{minipage}[c]{0.3\linewidth}
+    \textbf{Viel Erfolg!}
+  \end{minipage} \hfill
+  \begin{minipage}[c]{0.2\linewidth}
+    \begin{tabular}{l|p{1.5cm}|}
+      \cline{2-2}
+      \textbf{Note:} & \\ 
+      & \\ \cline{2-2}
+    \end{tabular}
+  \end{minipage}
+
+  \bilderend
+}
+
+
+
+
+\newcommand{\insertpdf}[2]{
+  \newpage
+  \thispagestyle{empty}
+  \mbox{}
+  \ClearShipoutPicture \AddToShipoutPicture{
+    \put(0,0){
+      \parbox[b][\paperheight]{\paperwidth}{
+        \vfill
+        \centering
+        \includegraphics[page=#2,scale=1]{#1}
+    }
+  }
+}
+\newpage
+\ClearShipoutPicture
+}
+
+
+\newcommand{\insertpdfgedreht}[2]{
+  \newpage
+  \thispagestyle{empty}
+  \mbox{}
+  \ClearShipoutPicture \AddToShipoutPicture{
+    \put(0,0){
+      \parbox[b][\paperheight]{\paperwidth}{
+        \vfill
+        \centering
+        \includegraphics[page=#2,scale=1,angle=90]{#1}
+    }
+  }
+}
+\newpage
+\ClearShipoutPicture
+}
+
+
+
+\newcommand{\insertpdfrot}[3]{
+  \newpage
+  \thispagestyle{empty}
+  \mbox{}
+  \ClearShipoutPicture \AddToShipoutPicture{
+    \put(0,0){
+      \parbox[b][\paperheight]{\paperwidth}{
+        \vfill
+        \centering
+        \includegraphics[page=#2,scale=1,angle=#3]{#1}
+    }
+  }
+}
+\newpage
+\ClearShipoutPicture
+}
+
+
+
+
+\newcommand{\stationbild}[4]{
+  \newpage
+  \thispagestyle{empty}
+  \mbox{}
+  \ClearShipoutPicture \AddToShipoutPicture{
+    \put(0,421){\includegraphics[page=#2,scale=1]{#1}}
+    \put(0,0){\includegraphics[page=#4,scale=1]{#3}}
+  }
+  \newpage
+  \ClearShipoutPicture
+}
+
+
+
+
+\newcommand{\insertbild}[2]{
+  \newpage
+  \thispagestyle{empty}
+  \mbox{}
+  \ClearShipoutPicture \AddToShipoutPicture{
+    \put(0,0){
+      \parbox[b][\paperheight]{\paperwidth}{
+        \vfill
+        \centering
+        \includegraphics[width=#2]{#1}
+      \vfill
+    }
+  }
+}
+\newpage
+\ClearShipoutPicture
+}
+
+
+
+
+\newenvironment{uebersicht}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \hspace{0.3cm} #3  }}}
+    \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries \Large #4
+           }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Rendtel, #1}}}
+
+    \put(545,540){\rotatebox{90}{\makebox(184,22)[r]{\sffamily\bfseries
+          #2}}}
+    \put(545,104){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries
+          Übersicht}}}
+    \put(545,76){\includegraphics[height=20pt]{info.png}}
+    
+    
+
+  }
+  {
+\thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(330,22)[l]{ \sffamily\bfseries \hspace{0.3cm} #3  }}}
+    \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries \Large #4
+           }}}
+    \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny
+          Rendtel, #1}}}
+
+    \put(40,729){\rotatebox{270}{\makebox(184,22)[l]{\sffamily\bfseries
+          #2}}}
+    \put(40,204){\rotatebox{270}{\makebox(100,22)[r]{\sffamily\bfseries
+          Übersicht}}}
+    \put(40,76){\includegraphics[height=20pt]{info.png}}
+    
+    
+  }
+}
+
+}
+{
+\thispagestyle{empty}
+\clearpage
+\ClearShipoutPicture
+
+}
+
+
+
+\newenvironment{tafel}[1][Rendtel]
+{\newpage
+  \setcounter{figure}{0}
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \pagestyle{fancyplain}
+  \lhead[]{}
+  \chead{}
+  \rhead[]{}
+  \lfoot[]{}
+  \cfoot{}
+  \rfoot[]{}
+}{\newpage
+  \setcounter{page}{\thesavepagenum}
+  \pagestyle{plain}
+}
+
+
+\newenvironment{plakat}[5][\today] { \definecolor{ersatz}{rgb}{#5}
+  \setcounter{savepagenum}{\thepage} \setcounter{page}{1}  \Huge
+  \ClearShipoutPicture \AddToShipoutPicture{ \renewcommand{\headrulewidth}{0.0pt}
+    \renewcommand{\footrulewidth}{0.0pt} \ifthenelse{\isodd{\value{page}}}{
+      \thicklines \put(70,52){\framebox(470,690){}}
+      \put(70,743){{\colorbox{ersatz}{\framebox(330,22)[l]{ \sffamily\bfseries \normalsize
+              \hspace{0.3cm} #3 }}}} \put(401,743){{\colorbox{ersatz}{\framebox(139,22)[l]{
+            \hspace{0.3cm} \sffamily\bfseries \Large Gruppe #4  }}}}
+      \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny 
+            Rendtel, #1}}}
+      \put(545,540){\rotatebox{90}{\makebox(184,22)[r]{\sffamily\bfseries \normalsize
+            #2}}}
+      \put(545,104){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries \normalsize
+            Plakat}}}
+      \put(545,76){\includegraphics[height=20pt]{edit.png}} } {
+      \thicklines \put(70,52){\framebox(470,690){}}
+      \put(70,743){{\colorbox{ersatz}{\framebox(330,22)[l]{ \sffamily\bfseries \normalsize
+              \hspace{0.3cm} #3 }}}} \put(401,743){{\colorbox{ersatz}{\framebox(139,22)[l]{
+            \hspace{0.3cm} \sffamily\bfseries \Large Gruppe #4  }}}}
+      \put(542,152){\rotatebox{270}{\makebox(100,7)[r]{\sffamily \tiny 
+            Rendtel, #1}}}
+
+    \put(40,729){\rotatebox{270}{\makebox(184,22)[l]{\sffamily\bfseries
+          \normalsize #2}}}
+    \put(40,204){\rotatebox{270}{\makebox(100,22)[r]{\sffamily\bfseries \normalsize
+          Plakat}}}
+    \put(40,76){\includegraphics[height=20pt]{edit.png}} } } } {
+\thispagestyle{empty} \clearpage \ClearShipoutPicture }
+
+
+
+
+ 
+
+
+\newcommand{\tafelbild}[3]{
+  \large
+  \fbox{
+    \begin{minipage}[t][6cm]{0.23\linewidth}
+    #1
+  \end{minipage}}
+  \fbox{
+  \begin{minipage}[t][6cm]{0.5\linewidth}
+    #2
+  \end{minipage}}
+  \fbox{
+  \begin{minipage}[t][6cm]{0.23\linewidth}
+    #3
+  \end{minipage}}
+
+}
+
+
+
+\newenvironment{randlos}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+  \LARGE
+  
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(470,22)[l]{ \sffamily\bfseries \normalsize \hspace{0.3cm} #3  }}}
+    %\put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+     %     \Large #4
+      %    F }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Rendtel, #1}}}
+
+    
+
+  }
+  {
+\thicklines
+    \put(70,52){\framebox(470,690){}}
+    \put(70,743){{\framebox(470,22)[l]{ \sffamily\bfseries \normalsize \hspace{0.3cm} #3  }}}
+%    \put(401,743){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries \Large #4
+ %         F }}}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Rendtel, #1}}}
+
+    
+    
+  }
+}
+
+}
+{
+\thispagestyle{empty}
+\clearpage
+\ClearShipoutPicture
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+\newenvironment{stationkarte}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+  
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+
+
+    \put(56,57){\framebox(470,330){}} 
+    \put(56,365){{\framebox(330,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #3  }}}
+    \put(386,365){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          \Large #4
+           }}}
+    \put(47,62){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Rendtel, #1}}}
+
+    \put(531,94){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries \normalsize
+          Stationenarbeit}}}
+    \put(531,274){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries \normalsize
+          #2}}}
+
+    \put(531,72){\includegraphics[height=20pt]{station.png}}
+
+    
+
+  }
+  {
+
+
+    \put(56,57){\framebox(470,330){}} 
+    \put(56,365){{\framebox(330,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #3  }}}
+    \put(386,365){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          \Large #4
+           }}}
+    \put(47,62){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Rendtel, #1}}}
+
+    \put(531,94){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries \normalsize
+          Stationenarbeit}}}
+    \put(531,274){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries \normalsize
+          #2}}}
+
+    \put(531,72){\includegraphics[height=20pt]{station.png}}
+    
+  }
+}
+
+}
+{
+\thispagestyle{empty}
+\clearpage
+
+\ClearShipoutPicture
+
+}
+
+
+
+
+\newenvironment{stationkarteloesung}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+  
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+  \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+
+
+    \put(56,57){\framebox(470,330){}} 
+    \put(56,365){{\framebox(330,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #3  }}}
+    \put(386,365){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          \Large #4 Lösung
+           }}}
+    \put(47,62){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Rendtel, #1}}}
+
+    \put(531,94){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries \normalsize
+          Stationenarbeit}}}
+    \put(531,274){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries \normalsize
+          #2}}}
+
+    \put(531,72){\includegraphics[height=20pt]{station.png}}
+
+  }
+  {
+
+    \put(56,57){\framebox(470,330){}} 
+    \put(56,365){{\framebox(330,22)[l]{ \sffamily\bfseries \normalsize
+          \hspace{0.3cm} #3  }}}
+    \put(386,365){{\framebox(139,22)[l]{ \hspace{0.3cm} \sffamily\bfseries
+          \Large #4 Lösung
+           }}}
+    \put(47,62){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Rendtel, #1}}}
+
+    \put(531,94){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries \normalsize
+          Stationenarbeit}}}
+    \put(531,274){\rotatebox{90}{\makebox(100,22)[l]{\sffamily\bfseries \normalsize
+          #2}}}
+
+    \put(531,72){\includegraphics[height=20pt]{station.png}}
+
+  }
+}
+  \schuleloesungbegin
+}
+{
+\thispagestyle{empty}
+\clearpage
+  \schuleloesungend
+
+\ClearShipoutPicture
+
+}
+
+\newenvironment{definition}[4][\today]
+{
+  \setcounter{savepagenum}{\thepage}
+  \setcounter{page}{1}
+  \LARGE
+  
+\ClearShipoutPicture \AddToShipoutPicture{
+  \renewcommand{\headrulewidth}{0.0pt}
+  \renewcommand{\footrulewidth}{0.0pt}
+   \ifthenelse{\isodd{\value{page}}}{
+     \thicklines
+   }
+  {
+    \thicklines
+  }
+}
+
+}
+{
+\thispagestyle{empty}
+\clearpage
+\ClearShipoutPicture
+
+}
+
+
+\newenvironment{planung}[6][\today]{
+  \ClearShipoutPicture \AddToShipoutPicture{
+    \addtocounter{planung}{1}
+    \renewcommand{\headrulewidth}{0.0pt}
+    \renewcommand{\footrulewidth}{0.0pt}
+    \ifthenelse{\isodd{\value{page}}}{
+    \thicklines
+    \put(220,803){\makebox(320,20)[r]{Datum: #1}}
+    \put(70,763){\framebox(150,40)[l]{ \hspace{0.2cm} 
+        
+        \begin{tabular}{l}
+          \sffamily {\bfseries Stundenplanung} \\
+          Fach: #2 % Fach
+        \end{tabular}
+
+      }}
+    \put(70,743){\framebox(150,20)[l]{ \hspace{0.2cm} 
+        \begin{tabular}{l}
+          Klasse: #3
+      \end{tabular}
+      }}
+    \put(70,52){\framebox(470,690){}}
+
+
+    \put(220,763){\framebox(320,40)[l]{ \hspace{0.2cm} 
+
+
+        \begin{tabular}{l}
+          \sffamily {\bfseries Oberthema: #4} \\
+
+          %\sffamily {\bfseries Stunde:} \theplanung
+          ~ 
+        \end{tabular}
+
+      }}
+
+    \put(220,743){\framebox(320,20)[l]{ \hspace{0.2cm} 
+
+
+          \sffamily { Thema der Stunde: #5 } 
+
+      }}
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Rendtel, #1}}}
+
+    
+  }{
+
+
+    \thicklines
+    \put(220,803){\makebox(320,20)[r]{Datum: #1}}
+    \put(70,763){\framebox(150,40)[l]{ \hspace{0.2cm} 
+        
+        \begin{tabular}{l}
+          \sffamily {\bfseries Stundenplanung} \\
+          Fach: #2 % Fach
+        \end{tabular}
+
+      }}
+    \put(70,743){\framebox(150,20)[l]{ \hspace{0.2cm} 
+        \begin{tabular}{l}
+          Klasse: #3
+      \end{tabular}
+      }}
+    \put(70,52){\framebox(470,690){}}
+    \put(220,763){\framebox(320,40)[l]{ \hspace{0.2cm} 
+
+
+        \begin{tabular}{l}
+          \sffamily {\bfseries Oberthema: #4} \\
+
+          %\sffamily {\bfseries Stunde:} \theplanung
+          ~ 
+        \end{tabular}
+
+      }}
+
+    \put(220,743){\framebox(320,20)[l]{ \hspace{0.2cm} 
+
+
+          \sffamily { Thema der Stunde: #5 } 
+
+      }}
+
+    \put(61,52){\rotatebox{90}{\makebox(100,7)[l]{\sffamily \tiny
+          Rendtel, #1}}}
+
+
+  } 
+  }
+  }
+{
+\thispagestyle{empty}
+\clearpage
+\ClearShipoutPicture
+
+}
+
+
+\newenvironment{ptabelle}[1]{
+\renewcommand{\arraystretch}{1.1}
+  \newcolumntype{B}{>{\columncolor{grau}}c}
+  \begin{longtable}{|p{0.1\linewidth}|p{0.6\linewidth}|p{0.1\linewidth}|p{0.1\linewidth}|}
+    \hline \multicolumn{1}{|B|}{\textbf{\small Phase}} &
+    \multicolumn{1}{B|}{\textbf{\small Beschreibung}} &
+    \multicolumn{1}{B|}{\textbf{\small Methode}}
+    &\multicolumn{1}{B|}{\textbf{\small Medien}} \\ \hline
+    \endhead
+    \hline
+    \endfoot
+    #1
+  }
+  {
+    
+  \end{longtable}
+}
+
+
+\newcommand{\ptabeintrag}[4]{
+  \footnotesize{#1} & #2 & \footnotesize{#3} & \footnotesize{#4} \\ \hline 
+}
+
+
+\newcommand{\merke}[1]{
+\fontfamily{pcr} \selectfont
+#1
+  
+}

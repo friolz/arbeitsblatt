@@ -1,0 +1,154 @@
+\NeedsTeXFormat{LaTeX2e}[1996/06/01]
+\ProvidesPackage{kasten}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Xenia Rendtel
+% 09.07.2004
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Kästen
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\definecolor{dunkelgrau}{gray}{0.75}
+\definecolor{hellgrau}{gray}{0.9}
+
+\newcommand{\kasten}[2][0.9\linewidth]{
+  \begin{center}
+    \vspace{3pt}
+  \shadowbox{\colorbox{white}{\parbox[t]{#1}{#2}}}
+  \vspace{3pt}
+  \end{center}
+}
+
+
+\newcommand{\kasteneinfach}[2][0.9\linewidth]{
+  \begin{center}
+    \fbox{\parbox[t]{#1}{#2}}
+  \end{center}
+}
+
+\definecolor{anders}{rgb}{1.0,1.0,1.0}
+\newcommand{\bbox}[1]{
+  \definecolor{anders}{rgb}{1.0,1.0,1.0}
+  \fcolorbox{structureshaded}{anders}{ #1} }
+
+
+\newcommand{\cbox}[2][anders]{
+  \definecolor{anders}{rgb}{1.0,1.0,1.0}
+  \fcolorbox{structureshaded}{#1}{\parbox[t]{0.9\linewidth}{#2}} }
+
+
+
+\newcommand{\kastenfarbe}[2][white]{
+  \begin{center}
+    \vspace{3pt}
+    \shadowbox{\colorbox{#1}{\parbox[t]{0.9\linewidth}{#2}}}
+    \vspace{5pt}
+  \end{center}
+}
+
+
+
+
+
+
+
+
+  \definecolor{gelb}{rgb}{1.0,1.0,0.7}
+  \definecolor{dunkelgelb}{rgb}{1.0,0.9,0.2}
+  \definecolor{hellgelb}{rgb}{1.0,1.0,0.9}
+
+\setlength{\fboxrule}{0.1em}
+  \definecolor{gelb}{rgb}{1.0,1.0,0.7}
+\newcommand{\pcode}[2]{
+
+  \fcolorbox{structureshaded}{gelb}{
+    \begin{minipage}{#1}
+      #2
+    \end{minipage}
+  }
+}
+
+\definecolor{grau}{gray}{0.85}
+\definecolor{structureshaded}{gray}{0.75}
+\newcommand{\acode}[2]{
+  \definecolor{anders}{rgb}{1.0,1.0,1.0}
+  \fcolorbox{structureshaded}{anders}{
+    \begin{minipage}{#1}
+      #2
+    \end{minipage}
+  }
+}
+
+\newcommand{\mpage}[3][c]{
+  \begin{minipage}[#1]{#2}
+    #3
+  \end{minipage}
+}
+
+\newcommand{\mpageh}[3]{
+  \begin{minipage}[t][#1]{#2}
+    #3
+  \end{minipage}
+}
+  
+
+
+\definecolor{alert}{rgb}{1,0,0}
+\definecolor{darkgreen}{rgb}{0.15,0.6,0.15}
+\definecolor{shaded}{gray}{0.6}
+\definecolor{blockstructure}{rgb}{0.2,0.2,0.7}
+\definecolor{lightgray}{gray}{0.9}
+\definecolor{huhu}{rgb}{0.2,0.2,0.7}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Neue Arrayumgebung mit einstellbarer Höhe
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newenvironment{array2}{%
+  \setlength{\extrarowheight}{5pt}
+  $\begin{array}[]{rcll}}{%
+  \end{array}$
+  \setlength{\extrarowheight}{0pt}
+}
+\newenvironment{array3}{%
+  \setlength{\extrarowheight}{5pt}
+  $\begin{array}[]{ll}}{%
+  \end{array}$
+  \setlength{\extrarowheight}{0pt}
+}
+
+\newenvironment{array4}{%
+  \setlength{\extrarowheight}{5pt}
+  $\begin{array}[]{crcll}}{%
+  \end{array}$
+  \setlength{\extrarowheight}{0pt}
+}
+
+
+\def\dotuline{\bgroup
+  \ifdim\ULdepth=\maxdimen  % Set depth based on font, if not set already
+   \settodepth\ULdepth{(j}\advance\ULdepth.4pt\fi
+  \markoverwith{\begingroup
+  \advance\ULdepth0.08ex
+  \lower\ULdepth\hbox{\kern.15em .\kern.1em}%
+  \endgroup}\ULon}
+
+\def\dashuline{\bgroup
+  \ifdim\ULdepth=\maxdimen  % Set depth based on font, if not set already
+   \settodepth\ULdepth{(j}\advance\ULdepth.4pt\fi
+  \markoverwith{\kern.15em
+  \vtop{\kern\ULdepth \hrule width .3em}%
+  \kern.15em}\ULon}
+
+
+
